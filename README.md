@@ -13,10 +13,13 @@ end
 ```
 
 ## Usage
+
+JPEG only:
 ```ruby
 @image.process(:lossless_rotate)
 ```
 
+With fallback for other formats (rotate via ImageMagick):
 ```ruby
 @image.process(:safe_lossless_rotate)
 ```
