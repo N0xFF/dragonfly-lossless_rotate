@@ -58,6 +58,10 @@ With fallback for other formats (rotate via ImageMagick):
 
 ## Benchmark
 
+libjpeg version 9b (17-Jan-2016)
+libjpeg-turbo version 1.4.2 (build 20160222)
+MozJPEG version 3.3.2 (build 20180713)
+
 ### ImageMagick rotate
 ```bash
 convert old_path -rotate 90 new_path
@@ -71,7 +75,7 @@ puts Benchmark.measure { 500.times { @image.rotate(90).apply } }
 
 JPEG 85KB 552x416px
 
-#### libjpeg version 9b (17-Jan-2016)
+#### libjpeg
 
 ##### (optimize=true)
 ```bash
@@ -99,7 +103,7 @@ puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, o
   0.450000   1.470000  23.610000 ( 25.478872)
 ```
 
-#### libjpeg-turbo version 1.4.2 (build 20160222)
+#### libjpeg-turbo
 
 ##### (optimize=true)
 ```bash
@@ -161,7 +165,7 @@ puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, o
 
 Same image but resized to 556x417px
 
-#### libjpeg version 9b (17-Jan-2016)
+#### libjpeg
 
 ##### (optimize=true)
 ```bash
@@ -187,7 +191,7 @@ puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, o
   0.530000   1.520000  43.790000 ( 41.732961)
 ```
 
-#### libjpeg-turbo version 1.4.2 (build 20160222)
+#### libjpeg-turbo
 
 ##### (optimize=true)
 ```bash
