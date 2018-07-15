@@ -49,14 +49,24 @@ JPEG only:
 @image.process(:lossless_rotate, 180)
 @image.process(:lossless_rotate, 270)
 @image.process(:lossless_rotate, -90)
-
-# Without JPEG optimization
-@image.process(:lossless_rotate, 90, optimize: false)
 ```
 
 With fallback for other formats (rotate via ImageMagick):
 ```ruby
 @image.process(:safe_lossless_rotate)
+```
+
+Other options:
+```ruby
+# Without JPEG optimization (default: true)
+@image.process(:lossless_rotate, 90, optimize: false)
+# Set default value
+plugin :lossless_rotate, libjpeg_optimize: false
+
+# Create progressive JPEG file (default: false)
+@image.process(:lossless_rotate, 90, progressive: true)
+# Set default value
+plugin :lossless_rotate, libjpeg_progressive: true
 ```
 
 ## Benchmark
