@@ -1,5 +1,10 @@
 # Dragonfly Lossless Rotate
 
+## NOTE
+
+Tool jpegtran from MozJPEG may work incorrectly and not rotate same image many times.
+You should set ENV variable `JPEGTRAN_BIN=jpegtran` or `plugin :lossless_rotate, jpegtran_bin: "jpegtran"`
+
 ## Setup
 
 ```ruby
@@ -15,7 +20,7 @@ end
 
 ## Requirements
 
-By default gem use libjpeg binaries from mozjpeg:
+By default gem use libjpeg binaries from MozJPEG:
 ```shell
 mozjpeg-cjpeg
 mozjpeg-djpeg
@@ -38,6 +43,7 @@ JPEG only:
 @image.process(:lossless_rotate) # default 90
 @image.process(:lossless_rotate, 180)
 @image.process(:lossless_rotate, 270)
+@image.process(:lossless_rotate, -90)
 
 # Without JPEG optimization
 @image.process(:lossless_rotate, 90, optimize: false)
@@ -63,7 +69,7 @@ puts Benchmark.measure { 500.times { @image.rotate(90).apply } }
 
 JPEG 85KB 552x416px
 
-#### (optimize=true)
+#### (optimize=true) MozJPEG
 ```bash
 mozjpeg-jpegtran -rotate 90 -perfect -optimize old_path > new_path
 ```
@@ -91,9 +97,11 @@ puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, o
 
 ### Fallback when jpegtran transformation is not perfect
 
+> if the image dimensions are not a multiple of the iMCU size (usually 8 or 16 pixels)
+
 Same image but resized to 556x417px
 
-#### (optimize=true)
+#### (optimize=true) MozJPEG
 ```bash
 mozjpeg-djpeg old_path | pnmflip -r270 | mozjpeg-cjpeg -optimize > new_path
 ```
