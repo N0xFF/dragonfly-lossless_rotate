@@ -21,7 +21,7 @@ module Dragonfly
     class Rotate
       def call(content, degree=90, optimize: true)
         unless [90, 180, 270, -90, -180, -270].include?(degree)
-          warn "Rotate by 90, 180 and 270 degrees allowed"
+          warn "Rotate only by 90, 180 and 270 degrees allowed"
           degree = 90
         end
 
