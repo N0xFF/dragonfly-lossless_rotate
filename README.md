@@ -1,6 +1,7 @@
 # Dragonfly Lossless Rotate
 
 ## Setup
+
 ```ruby
 gem "dragonfly-lossless_rotate"
 ```
@@ -10,6 +11,24 @@ Dragonfly.app.configure
   require "dragonfly/lossless_rotate"
   plugin :lossless_rotate
 end
+```
+
+## Requirements
+
+By default gem use libjpeg binaries from mozjpeg:
+```shell
+mozjpeg-cjpeg
+mozjpeg-djpeg
+mozjpeg-jpegtran
+pnmflip
+```
+
+But you can set you own binaries in ENV or in `config/application.yml`:
+```ruby
+app.env[:cjpeg_bin]
+app.env[:djpeg_bin]
+app.env[:jpegtran_bin]
+app.env[:pnmflip_bin]
 ```
 
 ## Usage
