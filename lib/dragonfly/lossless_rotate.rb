@@ -20,7 +20,7 @@ module Dragonfly
     # Only JPEG format
     class Rotate
       def call(content, degree=90, optimize: true)
-        unless [90, 180, 270].include?(degree)
+        unless [90, 180, 270, -90, -180, -270].include?(degree)
           warn "Rotate by 90, 180 and 270 degrees allowed"
           degree = 90
         end
@@ -29,14 +29,6 @@ module Dragonfly
       end
 
       private
-
-        def pnmflip_degrees(degree)
-          { 90 => 270, 180 => 180, 270 => 90 }[degree]
-        end
-
-        def jpeg?(content)
-          content.shell_eval { |path| "identify -format \%m #{path}" } == "JPEG"
-        end
 
         def rotate(content, degree, optimize)
           cjpeg_bin    = content.env[:cjpeg_bin] || "mozjpeg-cjpeg"
@@ -52,11 +44,37 @@ module Dragonfly
               " convert - -rotate #{degree} JPG:#{new_path}"
             end
 
-            lossless_rotate_command = "#{jpegtran_bin} -rotate #{degree} -perfect#{optimize_option} #{old_path} > #{new_path}"
+            lossless_rotate_command = "#{jpegtran_bin} -rotate #{jpegtran_degrees(degree)} -perfect#{optimize_option} #{old_path} > #{new_path}"
             lossy_rotate_command = "#{djpeg_bin} #{old_path} |#{output_command}"
 
             "#{lossless_rotate_command} || #{lossy_rotate_command}"
           end
+        end
+
+        def pnmflip_degrees(degree)
+          {
+            90 => 270,
+            180 => 180,
+            270 => 90,
+            -90 => 90,
+            -180 => 180,
+            -270 => 270
+          }[degree]
+        end
+
+        def jpegtran_degrees(degree)
+          {
+            90 => 90,
+            180 => 180,
+            270 => 180,
+            -90 => 270,
+            -180 => 180,
+            -270 => 90
+          }[degree]
+        end
+
+        def jpeg?(content)
+          content.shell_eval { |path| "identify -format \%m #{path}" } == "JPEG"
         end
     end
 
