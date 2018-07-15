@@ -69,7 +69,7 @@ puts Benchmark.measure { 500.times { @image.rotate(90).apply } }
 
 JPEG 85KB 552x416px
 
-#### libjpeg
+#### libjpeg version 9b (17-Jan-2016)
 
 ##### (optimize=true)
 ```bash
@@ -82,6 +82,34 @@ puts Benchmark.measure { 500.times { @image.process(:lossless_rotate).apply } }
 
 puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate).apply } }
   0.440000   1.640000  24.360000 ( 26.211808)
+```
+
+##### (optimize=false)
+```bash
+jpegtran -rotate 90 -perfect -optimize old_path > new_path
+```
+
+```ruby
+puts Benchmark.measure { 500.times { @image.process(:lossless_rotate, 90, optimize: false).apply } }
+  0.290000   1.170000   9.600000 ( 10.321087)
+
+puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, optimize: false).apply } }
+  0.450000   1.470000  23.610000 ( 25.478872)
+```
+
+#### libjpeg-turbo version 1.4.2 (build 20160222)
+
+##### (optimize=true)
+```bash
+jpegtran -rotate 90 -perfect -optimize old_path > new_path
+```
+
+```ruby
+puts Benchmark.measure { 500.times { @image.process(:lossless_rotate).apply } }
+  0.280000   1.160000   9.170000 (  9.876645)
+
+puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate).apply } }
+  0.560000   1.780000  22.710000 ( 23.879913)
 ```
 
 ##### (optimize=false)
@@ -131,7 +159,7 @@ puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, o
 
 Same image but resized to 556x417px
 
-#### libjpeg
+#### libjpeg version 9b (17-Jan-2016)
 
 ##### (optimize=true)
 ```bash
@@ -155,6 +183,32 @@ puts Benchmark.measure { 500.times { @image.process(:lossless_rotate, 90, optimi
 
 puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, optimize: false).apply } }
   0.530000   1.520000  43.790000 ( 41.732961)
+```
+
+#### libjpeg-turbo version 1.4.2 (build 20160222)
+
+##### (optimize=true)
+```bash
+djpeg old_path | pnmflip -r270 | cjpeg -optimize > new_path
+```
+```ruby
+puts Benchmark.measure { 500.times { @image.process(:lossless_rotate).apply } }
+  0.410000   1.280000  16.310000 ( 13.220535)
+
+puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate).apply } }
+  0.310000   1.330000  30.300000 ( 28.332533)
+```
+
+##### (optimize=false)
+```bash
+djpeg old_path | convert - -rotate 90 JPG:new_path
+```
+```ruby
+puts Benchmark.measure { 500.times { @image.process(:lossless_rotate, 90, optimize: false).apply } }
+  0.470000   1.110000  29.630000 ( 26.944807)
+
+puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, optimize: false).apply } }
+  0.500000   1.810000  43.420000 ( 42.309805)
 ```
 
 #### MozJPEG
