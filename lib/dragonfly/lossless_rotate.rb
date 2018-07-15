@@ -40,13 +40,13 @@ module Dragonfly
           content.shell_update escape: false do |old_path, new_path|
             optimize_option = " -optimize" if optimize
             output_command = if optimize
-              " #{pnmflip_bin} -r#{pnmflip_degrees(degree)} | #{cjpeg_bin}#{optimize_option} > #{new_path}"
+              " #{pnmflip_bin} -r#{pnmflip_degrees(degree)} | #{cjpeg_bin}#{optimize_option} > '#{new_path}'"
             else
-              " convert - -rotate #{degree} JPG:#{new_path}"
+              " convert - -rotate #{degree} 'JPG:#{new_path}'"
             end
 
-            lossless_rotate_command = "#{jpegtran_bin} -rotate #{jpegtran_degrees(degree)} -perfect#{optimize_option} #{old_path} > #{new_path}"
-            lossy_rotate_command = "#{djpeg_bin} #{old_path} |#{output_command}"
+            lossless_rotate_command = "#{jpegtran_bin} -rotate #{jpegtran_degrees(degree)} -perfect#{optimize_option} '#{old_path}' > '#{new_path}'"
+            lossy_rotate_command = "#{djpeg_bin} '#{old_path}' |#{output_command}"
 
             "#{lossless_rotate_command} || #{lossy_rotate_command}"
           end
