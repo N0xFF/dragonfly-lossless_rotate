@@ -1,8 +1,11 @@
 # Dragonfly Lossless Rotate
 
+**About 60% more performance with libjpeg-turbo tools**
+
 ## NOTE
 
-Tool jpegtran from MozJPEG may work incorrectly and not rotate same image many times.
+Tool _jpegtran_ from MozJPEG may work incorrectly and not rotate same image many times.
+You should test it before run in production.
 
 ## Setup
 
@@ -19,7 +22,7 @@ end
 
 ## Requirements
 
-By default gem use libjpeg binaries:
+By default gem use _libjpeg_ binaries:
 ```shell
 cjpeg
 djpeg
@@ -58,9 +61,9 @@ With fallback for other formats (rotate via ImageMagick):
 
 ## Benchmark
 
-libjpeg version 9b (17-Jan-2016)
-libjpeg-turbo version 1.4.2 (build 20160222)
-MozJPEG version 3.3.2 (build 20180713)
+- _libjpeg_ version 9b (17-Jan-2016)
+- _libjpeg-turbo_ version 1.4.2 (build 20160222)
+- _MozJPEG_ version 3.3.2 (build 20180713)
 
 ### ImageMagick rotate
 ```bash
@@ -92,7 +95,7 @@ puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate).apply
 
 ##### (optimize=false)
 ```bash
-jpegtran -rotate 90 -perfect -optimize old_path > new_path
+jpegtran -rotate 90 -perfect old_path > new_path
 ```
 
 ```ruby
@@ -120,7 +123,7 @@ puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate).apply
 
 ##### (optimize=false)
 ```bash
-jpegtran -rotate 90 -perfect -optimize old_path > new_path
+jpegtran -rotate 90 -perfect old_path > new_path
 ```
 
 ```ruby
@@ -148,7 +151,7 @@ puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate).apply
 
 ##### (optimize=false)
 ```bash
-mozjpeg-jpegtran -rotate 90 -perfect -optimize old_path > new_path
+mozjpeg-jpegtran -rotate 90 -perfect old_path > new_path
 ```
 
 ```ruby
