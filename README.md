@@ -3,7 +3,6 @@
 ## NOTE
 
 Tool jpegtran from MozJPEG may work incorrectly and not rotate same image many times.
-You should set ENV variable `JPEGTRAN_BIN=jpegtran` or `plugin :lossless_rotate, jpegtran_bin: "jpegtran"`
 
 ## Setup
 
@@ -20,20 +19,23 @@ end
 
 ## Requirements
 
-By default gem use libjpeg binaries from MozJPEG:
+By default gem use libjpeg binaries:
 ```shell
-mozjpeg-cjpeg
-mozjpeg-djpeg
-mozjpeg-jpegtran
+cjpeg
+djpeg
+jpegtran
 pnmflip
 ```
 
-But you can set you own binaries in ENV or in `config/application.yml`:
+But you can set MozJPEG binaries in ENV `CJPEG_BIN=mozjpeg-cjpeg` or in config:
 ```ruby
-app.env[:cjpeg_bin]
-app.env[:djpeg_bin]
-app.env[:jpegtran_bin]
-app.env[:pnmflip_bin]
+Dragonfly.app.configure
+  require "dragonfly/lossless_rotate"
+  plugin :lossless_rotate, cjpeg_bin: "mozjpeg-cjpeg",
+                           djpeg_bin: "mozjpeg-djpeg",
+                           jpegtran_bin: "mozjpeg-jpegtran"
+
+end
 ```
 
 ## Usage

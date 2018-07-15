@@ -7,9 +7,9 @@ module Dragonfly
 
     class Plugin
       def call(app, opts={})
-        app.env[:cjpeg_bin] = opts[:cjpeg_bin] || "mozjpeg-cjpeg"
-        app.env[:djpeg_bin] = opts[:djpeg_bin] || "mozjpeg-djpeg"
-        app.env[:jpegtran_bin] = opts[:jpegtran_bin] || "mozjpeg-jpegtran"
+        app.env[:cjpeg_bin] = opts[:cjpeg_bin] || "cjpeg"
+        app.env[:djpeg_bin] = opts[:djpeg_bin] || "djpeg"
+        app.env[:jpegtran_bin] = opts[:jpegtran_bin] || "jpegtran"
         app.env[:pnmflip_bin] = opts[:pnmflip_bin] || "pnmflip"
 
         app.add_processor :lossless_rotate, Dragonfly::LosslessRotate::Rotate.new
@@ -31,9 +31,9 @@ module Dragonfly
       private
 
         def rotate(content, degree, optimize)
-          cjpeg_bin    = content.env[:cjpeg_bin] || "mozjpeg-cjpeg"
-          djpeg_bin    = content.env[:djpeg_bin] || "mozjpeg-djpeg"
-          jpegtran_bin = content.env[:jpegtran_bin] || "mozjpeg-jpegtran"
+          cjpeg_bin    = content.env[:cjpeg_bin] || "cjpeg"
+          djpeg_bin    = content.env[:djpeg_bin] || "djpeg"
+          jpegtran_bin = content.env[:jpegtran_bin] || "jpegtran"
           pnmflip_bin  = content.env[:pnmflip_bin] || "pnmflip"
 
           content.shell_update escape: false do |old_path, new_path|
