@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 require "dragonfly"
 
 Dragonfly::App.register_plugin(:lossless_rotate) { Dragonfly::LosslessRotate::Plugin.new }
 
 module Dragonfly
   class LosslessRotate
-
     class Plugin
-      def call(app, opts={})
+      def call(app, opts = {})
         app.env[:cjpeg_bin] = opts[:cjpeg_bin] || "cjpeg"
         app.env[:djpeg_bin] = opts[:djpeg_bin] || "djpeg"
         app.env[:jpegtran_bin] = opts[:jpegtran_bin] || "jpegtran"
@@ -19,7 +20,7 @@ module Dragonfly
 
     # Only JPEG format
     class Rotate
-      def call(content, degree=90, optimize: true)
+      def call(content, degree = 90, optimize: true)
         unless [90, 180, 270, -90, -180, -270].include?(degree)
           warn "Rotate only by 90, 180 and 270 degrees allowed"
           degree = 90

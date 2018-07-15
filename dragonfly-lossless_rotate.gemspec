@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "dragonfly/lossless_rotate/version"
@@ -17,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.requirements << "jpegtran"
   spec.requirements << "pnmflip"
 
-  spec.files        = `git ls-files`.split($/)
+  spec.files = `git ls-files`.split($/)
 
   spec.add_runtime_dependency "dragonfly", "~> 1.0"
 end
