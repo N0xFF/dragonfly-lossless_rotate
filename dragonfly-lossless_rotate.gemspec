@@ -15,6 +15,7 @@ Gem::Specification.new do |spec|
   spec.requirements << "cjpeg"
   spec.requirements << "djpeg"
   spec.requirements << "jpegtran"
+  spec.requirements << "pnmflip"
 
   spec.files        = `git ls-files`.split($/)
 

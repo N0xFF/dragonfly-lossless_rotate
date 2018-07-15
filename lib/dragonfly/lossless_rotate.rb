@@ -14,13 +14,13 @@ module Dragonfly
 
     # Only JPEG format
     class Rotate
-      def call(content, degree=90, decompresses=true, optimize=true, pnmflip=true)
+      def call(content, degree=90, optimize=true)
         unless [90, 180, 270].include?(degree)
           warn "Rotate by 90, 180 and 270 degrees allowed"
           degree = 90
         end
 
-        rotate(content, degree, decompresses, optimize, pnmflip)
+        rotate(content, degree, optimize)
       end
 
       private
@@ -33,26 +33,22 @@ module Dragonfly
           content.shell_eval { |path| "identify -format \%m #{path}" } == "JPEG"
         end
 
-        def rotate(content, degree, decompresses, optimize)
+        def rotate(content, degree, optimize)
           cjpeg_bin    = content.env[:cjpeg_bin] || 'mozjpeg-cjpeg'
           djpeg_bin    = content.env[:djpeg_bin] || 'mozjpeg-djpeg'
           jpegtran_bin = content.env[:jpegtran_bin] || 'mozjpeg-jpegtran'
+          pnmflip_bin  = content.env[:pnmflip_bin] || 'pnmflip' # pamflip
 
           content.shell_update escape: false do |old_path, new_path|
             optimize_option = " -optimize" if optimize
-            optimize_command = " | #{jpegtran_bin}#{optimize_option} > #{new_path}"
+            output_command = if optimize
+              " #{pnmflip_bin} -r#{pnmflip_degrees(degree)} | #{cjpeg_bin}#{optimize_option} > #{new_path}"
+            else
+              " convert - -rotate #{degree} JPG:#{new_path}"
+            end
 
             lossless_rotate_command = "#{jpegtran_bin} -rotate #{degree} -perfect#{optimize_option} #{old_path} > #{new_path}"
-            lossy_rotate_command = if decompresses
-              # If jpegtran can't do perfect rotate, we decompress JPEG before
-              # perform lossy rotate.
-              last_command = optimize ? optimize_command : new_path
-              "#{djpeg_bin} #{old_path} | convert - -rotate #{degree} JPG:#{'-' if optimize}#{last_command}"
-            else
-              # Do not decompress JPEG before perform lossy rotate.
-              last_command = optimize ? "-#{optimize_command}" : new_path
-              "convert #{old_path} -rotate #{degree} JPG:#{last_command}"
-            end
+            lossy_rotate_command = "#{djpeg_bin} #{old_path} |#{output_command}"
 
             "#{lossless_rotate_command} || #{lossy_rotate_command}"
           end
@@ -61,7 +57,7 @@ module Dragonfly
 
     # All formats support by ImageMagick
     class SafeRotate < Rotate
-      def rotate(content, degree, decompresses, optimize, pnmflip)
+      def rotate(content, degree, optimize)
         return super if jpeg?(content)
 
         content.shell_update escape: false do |old_path, new_path|
