@@ -16,7 +16,12 @@ end
 
 JPEG only:
 ```ruby
-@image.process(:lossless_rotate)
+@image.process(:lossless_rotate) # default 90
+@image.process(:lossless_rotate, 180)
+@image.process(:lossless_rotate, 270)
+
+# Without JPEG optimization
+@image.process(:lossless_rotate, 90, optimize: false)
 ```
 
 With fallback for other formats (rotate via ImageMagick):
@@ -58,10 +63,10 @@ mozjpeg-jpegtran -rotate 90 -perfect -optimize old_path > new_path
 ```
 
 ```ruby
-puts Benchmark.measure { 500.times { @image.process(:lossless_rotate, 90, false).apply } }
+puts Benchmark.measure { 500.times { @image.process(:lossless_rotate, 90, optimize: false).apply } }
   0.310000   1.100000  34.960000 ( 35.947432)
 
-puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, false).apply } }
+puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, optimize: false).apply } }
   0.470000   1.660000  49.050000 ( 50.823576)
 ```
 
@@ -86,9 +91,9 @@ puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate).apply
 mozjpeg-djpeg old_path | convert - -rotate 90 JPG:new_path
 ```
 ```ruby
-puts Benchmark.measure { 500.times { @image.process(:lossless_rotate, 90, false).apply } }
+puts Benchmark.measure { 500.times { @image.process(:lossless_rotate, 90, optimize: false).apply } }
   0.270000   1.170000  31.300000 ( 28.983087)
 
-puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, false).apply } }
+puts Benchmark.measure { 500.times { @image.process(:safe_lossless_rotate, 90, optimize: false).apply } }
   0.340000   1.310000  44.890000 ( 43.052428)
 ```

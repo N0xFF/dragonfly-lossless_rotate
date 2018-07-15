@@ -14,7 +14,7 @@ module Dragonfly
 
     # Only JPEG format
     class Rotate
-      def call(content, degree=90, optimize=true)
+      def call(content, degree=90, optimize: true)
         unless [90, 180, 270].include?(degree)
           warn "Rotate by 90, 180 and 270 degrees allowed"
           degree = 90
