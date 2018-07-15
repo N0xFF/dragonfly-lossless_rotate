@@ -65,6 +65,8 @@ With fallback for other formats (rotate via ImageMagick):
 - _libjpeg-turbo_ version 1.4.2 (build 20160222)
 - _MozJPEG_ version 3.3.2 (build 20180713)
 
+JPEG 85KB 552x416px
+
 ### ImageMagick rotate
 ```bash
 convert old_path -rotate 90 new_path
@@ -75,8 +77,6 @@ puts Benchmark.measure { 500.times { @image.rotate(90).apply } }
 ```
 
 ### Lossless rotate
-
-JPEG 85KB 552x416px
 
 #### libjpeg
 
