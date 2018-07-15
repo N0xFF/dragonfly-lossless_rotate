@@ -84,8 +84,8 @@ module Dragonfly
       def rotate(content, degree, optimize)
         return super if jpeg?(content)
 
-        content.shell_update escape: false do |old_path, new_path|
-          "convert -rotate #{degree} #{old_path} > #{new_path}"
+        content.shell_update do |old_path, new_path|
+          "convert #{old_path} -rotate #{degree} #{new_path}"
         end
       end
       private :rotate
