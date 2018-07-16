@@ -47,16 +47,15 @@ module Dragonfly
             optimize_option    = " -optimize" if optimize
             progressive_option = " -progressive" if progressive
 
-            output_command = if optimize
-              " #{pnmflip_bin} -r#{pnmflip_degrees(degree)} | #{cjpeg_bin}#{progressive_option}#{optimize_option} > '#{new_path}'"
-            else
-              " convert - -rotate #{degree} 'JPG:#{new_path}'"
-            end
-
             lossless_rotate_command = "#{jpegtran_bin} -rotate #{jpegtran_degrees(degree)} -perfect#{progressive_option}#{optimize_option} '#{old_path}' > '#{new_path}'"
-            lossy_rotate_command = "#{djpeg_bin} '#{old_path}' |#{output_command}"
 
-            "#{lossless_rotate_command} || #{lossy_rotate_command}"
+            decompress_command = " #{djpeg_bin} '#{old_path}'"
+            pnmflip_command    = " #{pnmflip_bin} -r#{pnmflip_degrees(degree)}"
+            cjpeg_command      = " #{cjpeg_bin}#{progressive_option}#{optimize_option} > '#{new_path}'"
+
+            lossy_rotate_command = "#{decompress_command} |#{pnmflip_command} |#{cjpeg_command}"
+
+            "#{lossless_rotate_command} ||#{lossy_rotate_command}"
           end
         end
 
