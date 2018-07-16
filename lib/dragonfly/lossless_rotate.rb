@@ -29,8 +29,8 @@ module Dragonfly
           degree = 90
         end
 
-        optimize    ||= content.env[:libjpeg_optimize]
-        progressive ||= content.env[:libjpeg_progressive]
+        optimize    = content.env[:libjpeg_optimize] if optimize.nil?
+        progressive = content.env[:libjpeg_progressive] if progressive.nil?
 
         rotate(content, degree, optimize, progressive)
       end
