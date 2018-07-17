@@ -2,6 +2,9 @@
 
 **About 60% more performance with libjpeg-turbo tools**
 
+ImageMagick _convert_ command which used in Dragonfly for rotation is [lossy](https://www.imagemagick.org/discourse-server/viewtopic.php?t=5899) for JPEG images.
+This gem uses _libjpeg_ for lossless rotation.
+
 ## NOTE
 
 Tool _jpegtran_ from MozJPEG may work incorrectly and not rotate same image many times.
@@ -22,13 +25,27 @@ end
 
 ## Requirements
 
-By default gem use _libjpeg_ binaries:
+By default gem uses _libjpeg_ binaries and _pnmflip_ from _netpbm_:
 ```shell
 cjpeg
 djpeg
 jpegtran
 pnmflip
 ```
+
+Ubuntu:
+```bash
+sudo apt-get install libjpeg-turbo-progs netpbm
+```
+
+macOS:
+```bash
+brew install libjpeg netpbm
+```
+
+FreeBSD:
+https://www.freshports.org/graphics/libjpeg-turbo
+https://www.freshports.org/graphics/netpbm
 
 But you can set MozJPEG binaries in ENV `CJPEG_BIN=mozjpeg-cjpeg` or in config:
 ```ruby
@@ -39,6 +56,11 @@ Dragonfly.app.configure
                            jpegtran_bin: "mozjpeg-jpegtran"
 
 end
+```
+
+Use _pamflip_ as _pnmflip_ compatible binary:
+```ruby
+plugin :lossless_rotate, pnmflip_bin: "pamflip"
 ```
 
 ## Usage
