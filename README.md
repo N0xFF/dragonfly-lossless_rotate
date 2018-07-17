@@ -33,19 +33,24 @@ jpegtran
 pnmflip
 ```
 
-Ubuntu:
+#### Ubuntu
+
 ```bash
 sudo apt-get install libjpeg-turbo-progs netpbm
 ```
 
-macOS:
+#### macOS
+
 ```bash
 brew install libjpeg netpbm
 ```
 
-FreeBSD:
+#### FreeBSD
+
  - https://www.freshports.org/graphics/libjpeg-turbo
  - https://www.freshports.org/graphics/netpbm
+
+#### MozJPEG binaries
 
 But you can set MozJPEG binaries in ENV `CJPEG_BIN=mozjpeg-cjpeg` or in config:
 ```ruby
@@ -58,7 +63,8 @@ Dragonfly.app.configure
 end
 ```
 
-Use _pamflip_ as _pnmflip_ compatible binary:
+#### Use _pamflip_ as _pnmflip_ compatible binary
+
 ```ruby
 plugin :lossless_rotate, pnmflip_bin: "pamflip"
 ```
