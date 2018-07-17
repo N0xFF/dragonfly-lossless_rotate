@@ -44,8 +44,8 @@ brew install libjpeg netpbm
 ```
 
 FreeBSD:
-https://www.freshports.org/graphics/libjpeg-turbo
-https://www.freshports.org/graphics/netpbm
+ - https://www.freshports.org/graphics/libjpeg-turbo
+ - https://www.freshports.org/graphics/netpbm
 
 But you can set MozJPEG binaries in ENV `CJPEG_BIN=mozjpeg-cjpeg` or in config:
 ```ruby
