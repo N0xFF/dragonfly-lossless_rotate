@@ -99,6 +99,7 @@ plugin :lossless_rotate, libjpeg_progressive: true
 
 ## Benchmark
 
+- _ImageMagick_ 6.8.9-9 Q16 x86_64 2017-07-31
 - _libjpeg-turbo_ version 1.4.2 (build 20160222)
 - _MozJPEG_ version 3.3.2 (build 20180713)
 
